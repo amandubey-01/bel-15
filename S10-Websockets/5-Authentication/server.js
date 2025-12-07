@@ -65,7 +65,62 @@ io.on('connection', (socket) => {
         const currentRooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
 
         if (currentRooms.length > 0) {
-            
+            const currentRoom = currentRooms[0];
+            // The user may be coming from a different room.
+            socket.leave(currentRoom);
+            const leaveMessage = {
+                username: 'System',
+                message: `${socket.user.username} has left the room`,
+                gray:true
+            };
+
+            chatrooms(currentRoom).push(leaveMessage);
+            io.to(currentRoom).push(leaveMessage);
         }
-    })
-})
+
+        socket.join(room);
+
+        const lastMessages = chatrooms[room].slice(-50);
+        socket.emit('room-messages', lastMessages);
+
+        const joinMessage = {
+            username: 'System',
+            message: `${socket.user.username} has joined the room`,
+            gray: true,
+        };
+        chatrooms[room].push(joinMessage);
+        io.to(room).emit('message', joinMessage);
+    });
+
+    // Broadcast message
+    socket.on('message', (message) => {
+        // Get list of rooms the user has joined except his own private room. SocketIO creates a private room by default.
+        const rooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
+        if (rooms.length > 0 ){
+            const room = rooms[0];
+            const chatMessage = {username: socket.user.username, message};
+            chatrooms[room].push(chatMessage);
+            // Broadcast the message to all the users in that room.
+            io.to(room).emit('message', chatMessage);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        const rooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
+        rooms.forEach((room) => {
+            const leaveMessage = {
+                username: 'System',
+                message: `${socket.user.username} has left the room`,
+                gray: true,
+            };
+
+            chatrooms[room].push(leaveMessage);
+            io.to(room).emit('message', leaveMessage);
+        });
+        console.log(`${socket.user.username} disconnected`);
+    });
+});
+
+server.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
