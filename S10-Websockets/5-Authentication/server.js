@@ -59,15 +59,15 @@ io.on('connection', (socket) => {
     // Remove user from any other room
     // Push last 50 message for the new room
     // let the user join the room
-    socket.on('join-room', (room) => {
+    socket.on('join-room', (room) => { // handler when a user wants to join a room
 
-        //
+        // Filtering out all the rooms which is not the current room    
         const currentRooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
 
         if (currentRooms.length > 0) {
             const currentRoom = currentRooms[0];
-            // The user may be coming from a different room.
-            socket.leave(currentRoom);
+            // The user may be coming from a different room. SocketIO keeps track of the rooms user is connected to.
+            socket.leave(currentRoom); // forcing the user to leave all the room
             const leaveMessage = {
                 username: 'System',
                 message: `${socket.user.username} has left the room`,
@@ -78,12 +78,12 @@ io.on('connection', (socket) => {
             io.to(currentRoom).push(leaveMessage);
         }
 
-        socket.join(room);
+        socket.join(room); // let the user join that specific room.
 
-        const lastMessages = chatrooms[room].slice(-50);
-        socket.emit('room-messages', lastMessages);
+        const lastMessages = chatrooms[room].slice(-50); // if this room has messages get the last 50 messages, and push 
+        socket.emit('room-messages', lastMessages); // these message to this specific room
 
-        const joinMessage = {
+        const joinMessage = { 
             username: 'System',
             message: `${socket.user.username} has joined the room`,
             gray: true,
@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
     });
 
     // Broadcast message
-    socket.on('message', (message) => {
+    socket.on('message', (message) => { // to handle when there is message
         // Get list of rooms the user has joined except his own private room. SocketIO creates a private room by default.
         const rooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
         if (rooms.length > 0 ){
@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', () => { // handler when user is disconnected.  
         const rooms = Array.from(socket.rooms).filter((r) => r !== socket.id);
         rooms.forEach((room) => {
             const leaveMessage = {
