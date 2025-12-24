@@ -62,14 +62,14 @@ abstract class Vehicle{
 // start which takes param1 and param2 and should have void response. Abstract clases gives us capability
 // to describe abstract methods, methods that have just signature but does not have body.
 // Abstract methods are used to give unifomrity to child classes, and is one to achieve abstraction.
-class Car extends Vehicle{
+class Car1 extends Vehicle{
     start(): void {
         console.log(`Starting the car: ${this.make} ${this.model}`);
     }
 
 }   
 
-class Truck extends Vehicle{
+class Truck1 extends Vehicle{
     start(): void {
         console.log(`Starting the truck: ${this.make} ${this.model}`);
     }
@@ -123,6 +123,19 @@ class Car implements Drivaeable, Flyable {
 }
 
 class Truck implements Drivaeable{
+    speed: number;
+    constructor (speed: number){
+        this.speed = speed
+    }
+    drive(): void {
+        throw new Error("Method not implemented.");
+    }
+    start(): void {
+        throw new Error("Method not implemented.");
+    }
+    stop(): void {
+        throw new Error("Method not implemented.");
+    }
 
 }
 
