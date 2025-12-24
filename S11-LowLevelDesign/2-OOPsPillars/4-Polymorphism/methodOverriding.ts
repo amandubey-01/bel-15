@@ -32,10 +32,14 @@ class Person {
     protected getDetails(): string{
         return `Name: ${this.name}`;
     }
+
+    private getPhoneNumber(): number {
+        return 1234;
+    }
 }
 
 class Employee extends Person{
-    protected role: string;
+    private role: string;
     constructor (name: string, role: string){
         super(name);
         this.role = role;
@@ -43,9 +47,15 @@ class Employee extends Person{
 
     // Overriding the getDetails Implementation
     protected getDetails(): string {
+        super.getDetails(); // since getDetails is protected in base class and hence accessible in this child class.
+        // super.getPhoneNumber(); ---> private method only accessible from the class it is defined.
         return `Name: ${this.name} is assigned a role of ${this.role}`; 
     }
 }
 
+// Protected --> access modifier that makes the attribute/method accessible across the class hierarchy.
+// But it is not accessible from outside.
 
+const emp: Employee = new Employee("John Doe" , "Developer");
+// emp.getDetails - protected and hence not accessible from here.
 
