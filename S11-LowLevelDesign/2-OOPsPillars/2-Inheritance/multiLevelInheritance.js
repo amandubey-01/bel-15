@@ -68,3 +68,18 @@ class Human extends Mammal{
 const tharror = new Human("Shashi Tharror", "talks", "human");
 //tharror.talk();
 tharror.speak();
+
+/* 
+talk(){
+    super.speak()
+    console.log(`${this.getName()} talks in fluent English`);
+}
+If we use super in multiLevel Inhertiance than it refers to which parent.
+It refers to the parent where the method is first available, or the nearest available method in the hierarchy when 
+going from down to upwards.
+That is when we use in Human, it first check the Mammal class if it is there then it gets that one, and then it goes to
+Animal class. 
+There is no way that we can access a method of the grandparent if the method is over ritten in the subsequent
+generation.
+
+*/
