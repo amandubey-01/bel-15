@@ -22,7 +22,18 @@ hierarchy.
 In JS or TS we only have run-time polymorphism.
 */
 
-class Person {
+export class Person { 
+// In TypeScript, any file without import/export is treated as a global script.
+// All such files share the same global scope, which can cause
+// "Duplicate identifier" errors if the same class name exists elsewhere.
+// Adding export (or even `export {}`) makes the file a module and
+// prevents global scope pollution, even if the class is not used anywhere else.
+
+// or
+
+// No import/export => global scope in TypeScript.
+// Use export (or export {}) to make the file a module and avoid name conflicts.
+
     protected name: string;
 
     constructor (name: string){
