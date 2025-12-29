@@ -38,7 +38,7 @@ class Library {
 const book1 = new Book ("Leviathan");
 const book2 = new Book ("Five point someone");
 
-const library1 = new Library("Unique Library", [book1, book2]);
+const library1 = new Library("Unique Library", [book1, book2]); // pass the dependent class from outside.
 // In this case even if the library gets destroyed. It would have not have any impact on Books. 
 //library1.addBook("What the fuck!");
 library1.showLibrary();

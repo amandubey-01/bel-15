@@ -23,10 +23,10 @@ class Bank{
 const jay = new Person("Jay");
 const PNB = new Bank("PNB");
 
-jay.openAccount(PNB);
+jay.openAccount(PNB); // passing the instances of Bank class in the function itself.
 PNB.provideLoan(jay);
 
 /*
 There is no anykind of ownership. Both exist independently and both has the capability of using each other. They use 
-each other by passing instances.
+each other by passing instances. 
 */
