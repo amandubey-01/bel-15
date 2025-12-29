@@ -52,3 +52,11 @@ class NotificationService {
 
 // If there is any change in orders let's say the tax rate changes we may have to change OrderProcessingService but
 // for anychange in Notification and Payments it won't need a change.
+
+ps = new PaymentService();
+ns = new NotificationService();
+
+const OrderService = new OrderProcessingService(ps, ns);
+
+// OrderProcessingService is associated with PaymentService and NotificationService via dependency injection.
+// It uses them but does not own or manage their lifecycle.
