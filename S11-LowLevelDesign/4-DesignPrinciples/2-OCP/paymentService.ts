@@ -118,3 +118,7 @@ payserviceOCP.processPayment(1000)
 // PayServiceOCP depends on the PaymentMethod interface, not on concrete payment classes.
 // At runtime, the actual implementation (CreditCard, DebitCard, UPI) is injected,
 // and the correct processPayment() method is invoked via polymorphism.
+
+
+// This class depends on an interface, so the concrete implementation
+// can be swapped at runtime without changing this class (polymorphism + OCP).
