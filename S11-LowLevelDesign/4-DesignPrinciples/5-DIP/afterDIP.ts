@@ -19,7 +19,7 @@ class DieselEngine implements Engine{
 
 // High-level modules
 class Car {
-    private engine: Engine;
+    private engine: Engine; // this should not be the instances of concerte class they should be of the interface
     // Dependency Injection
     // The high-level module is dependent on some low-level module, so I am injecting the low-level module from
     // outside.
